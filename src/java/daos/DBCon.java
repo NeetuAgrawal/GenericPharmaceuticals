@@ -38,7 +38,7 @@ public class DBCon {
         }
         }
         catch(Exception e){
-            System.out.println("Exception found while closing connection : "+e);
+            System.out.println("Exception found while closing connection  : :::::: "+e);
         }
     }
 }
