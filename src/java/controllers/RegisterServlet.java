@@ -43,6 +43,7 @@ public class RegisterServlet extends HttpServlet {
             //String confirm= request.getParameter("confirm");
             
             User u = new User(role,fname,lname,gender,mailId,password);
+            System.out.println("bs aise hi");
             
             
             
