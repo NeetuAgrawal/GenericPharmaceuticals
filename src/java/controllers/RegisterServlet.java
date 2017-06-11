@@ -43,21 +43,28 @@ public class RegisterServlet extends HttpServlet {
             String mailId= request.getParameter("emailid");
             String gender= request.getParameter("gender");
             String password= request.getParameter("password");
-            //String confirm= request.getParameter("confirm");
-            
+            String confirm= request.getParameter("confirm");
+            if(password.equals(confirm)){
             User u = new User(role,fname,lname,gender,mailId,password);
             System.out.println("Request is being passed to UserDAO");
             UserDAO  userDao= new UserDAO();
             boolean isAdded=userDao.addUser(u);
             if(isAdded){
                 System.out.println("New user has been added successfully...");
+                RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
+                rd.forward(request,response);
             }
             else{
-                out.println("<h3 style='font-color:red'>Registration failed...</h3>");
-                RequestDispatcher rd = request.getRequestDispatcher("index.html");
-                rd.include(request,response);
+                request.setAttribute("registerError","User Already Exist with this EmailId...");
+                RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+                rd.forward(request,response);
             }
-            
+            }
+            else{
+                request.setAttribute("passwordError","password and confirm password doesn't match");
+                RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+                rd.forward(request,response);
+            }
             }
             
             

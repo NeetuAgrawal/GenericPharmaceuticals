@@ -1,14 +1,16 @@
+<%-- 
+    Document   : welcome
+    Created on : Jun 11, 2017, 11:19:44 AM
+    Author     : manish
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>GenPharma</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Welcome to GENPharma</title>
         <style>
             body{
                 background-color: cornflowerblue;
@@ -33,7 +35,13 @@ and open the template in the editor.
                 padding: 20px;
                 border: 2px solid black;
                   }
+                   .error{
+                      color:red;
+                      font-style: italic;
+                      column-span: all;
+                  }
         </style>
+
     </head>
     <body>
        
@@ -67,6 +75,7 @@ and open the template in the editor.
         </div>
             <hr/>
                 <div id="register">
+                    <span class="error">  ${requestScope.registerError}</span>
             <h2 style="text-align: center"> New User </h2>
             <form method="post" action="register">
                 <table>
@@ -109,7 +118,8 @@ and open the template in the editor.
                         <td><input type="password" name="confirm"></td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td></td><td class="error">${requestScope.passwordError}</td></tr>
+                    <tr><td></td>
                         <td><input type="submit" value="Register"></td>
                     </tr>
                     
@@ -119,5 +129,6 @@ and open the template in the editor.
             </form>
         </div>
         </div>
+
     </body>
 </html>

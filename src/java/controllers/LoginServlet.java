@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
             User u= userDao.doesUserExist(role,emailId,password);
             if(u==null){
                 System.out.println("No User exist with this mail id or password ");
-                response.sendRedirect("./index.html");
+                response.sendRedirect("./index.jsp");
             }
             else{
                 request.setAttribute("user",u);
