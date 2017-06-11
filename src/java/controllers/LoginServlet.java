@@ -20,48 +20,33 @@ import models.User;
  *
  * @author manish
  */
-@WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
-public class RegisterServlet extends HttpServlet {
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
+public class LoginServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+  
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-            try(PrintWriter out = response.getWriter()){
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             
-            String role= request.getParameter("role");
-            String fname = request.getParameter("fname");
-            String lname= request.getParameter("lname");
-            String mailId= request.getParameter("emailid");
-            String gender= request.getParameter("gender");
-            String password= request.getParameter("password");
-            //String confirm= request.getParameter("confirm");
+            String emailId = request.getParameter("emailid");
+            String password = request.getParameter("password");
+            String role = request.getParameter("role");
             
-            User u = new User(role,fname,lname,gender,mailId,password);
-            System.out.println("Request is being passed to UserDAO");
-            UserDAO  userDao= new UserDAO();
-            boolean isAdded=userDao.addUser(u);
-            if(isAdded){
-                System.out.println("New user has been added successfully...");
+            UserDAO userDao = new UserDAO();
+            User u= userDao.doesUserExist(role,emailId,password);
+            if(u==null){
+                System.out.println("No User exist with this mail id or password ");
+                response.sendRedirect("./index.html");
             }
             else{
-                out.println("<h3 style='font-color:red'>Registration failed...</h3>");
-                RequestDispatcher rd = request.getRequestDispatcher("index.html");
-                rd.include(request,response);
+                request.setAttribute("user",u);
+                RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
+                rd.forward(request,response);
             }
             
-            }
-            
-            
-        
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

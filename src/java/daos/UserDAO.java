@@ -5,7 +5,10 @@
  */
 package daos;
 
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import models.User;
 
 /**
@@ -14,23 +17,93 @@ import models.User;
  */
 public class UserDAO {
     //registering
-    public void addUser(User user){
-    
-        
-          //check whether the same person exist with same email id
-          //if yes then show error
-          //or otherwise
-          //fetch roll_id
-          //add him and show msg.
-          
-          
-          
-          
+    Connection con;
+    public UserDAO(){
+    con=DBCon.getConnection();
+    }
+
+    public boolean addUser(User user){
+        //check whether the same person exist with same email id
+        try{
+        boolean exist = doesUserExist(user.getEmailId());
+        if(exist){
+            con.close();
+            return false;
+        }
+        else{
+             //fetch roll_id
+             
+               PreparedStatement pstmt = con.prepareStatement("insert into user(fname,lname,gender,email_id,password,role) values(?,?,?,?,?,?)");
+                pstmt.setString(1,user.getFirstName());
+                pstmt.setString(2,user.getLastName());
+                pstmt.setString(3,user.getGender());
+                pstmt.setString(4,user.getEmailId());
+                pstmt.setString(5,user.getPassword());
+                pstmt.setString(6,user.getRole());
+                
+                pstmt.executeUpdate();
+                
+                pstmt.close();
+                con.close();
+                
+                return true;
+               
+             }
+        }
+   
+        catch(Exception ex){
+            System.out.println("Exception found in addUser() method : "+ex);
+        }
+          return false;
           
     }
-    //for logging in
-    public User getUserByIdAndRole(String id, String role){
-        return new User(); 
+    //for signing in
+    public boolean doesUserExist(String emailId){
+        try{
+           
+            if(con!=null){
+                Statement stmt = con.createStatement();
+                ResultSet rset=stmt.executeQuery("select * from user where email='"+emailId+"'");
+                
+                if(rset.next()){
+                     rset.close();stmt.close();
+                    return true;
+                }
+                else{
+                    rset.close();stmt.close();
+                    return false;
+                }
+            }
+        }
+        catch(Exception ex){
+            System.out.println("Exception found in doesUserExist method() "+ex);
+        }
+        return false;
     }
     
+    
+     //for logging in
+    public User doesUserExist(String role,String emailId,String password){
+        try{
+           
+            if(con!=null){
+                Statement stmt = con.createStatement();
+                ResultSet rset=stmt.executeQuery("select * from user where email_id='"+emailId+"' and password='"+password+"'and role= '"+role+"'");
+                
+                if(rset.next()){
+                    User user= new User(rset.getString(1),rset.getString(2),rset.getString(3),rset.getString(4),rset.getString(5),rset.getString(6));
+                     rset.close();stmt.close();
+                    return user ;
+                }
+                else{
+                    rset.close();stmt.close();
+                    return null;
+                }
+            }
+        }
+        catch(Exception ex){
+            System.out.println("Exception found in doesUserExist method() "+ex);
+        }
+        return null;
+    }
 }
