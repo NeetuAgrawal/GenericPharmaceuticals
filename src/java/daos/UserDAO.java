@@ -16,10 +16,14 @@ public class UserDAO {
     //registering
     public void addUser(User user){
     
-        //fetch roll_id
+        
           //check whether the same person exist with same email id
           //if yes then show error
-          //or otherwise add him and show a msg of added.
+          //or otherwise
+          //fetch roll_id
+          //add him and show msg.
+          
+          
           
           
           
