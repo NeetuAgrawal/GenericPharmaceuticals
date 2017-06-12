@@ -13,5 +13,22 @@
     </head>
     <body>
         
+        <h3> All Vouchers </h3>
+        <table>
+            <thead>
+            <th>Sr. No.</th>
+            <th>Voucher Type</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Bill No. </th>
+            <th>Bill Image</th>
+            <th>Status</th>
+            </thead>
+            <tbody>
+                
+            </tbody>
+            
+        </table>
     </body>
 </html>
