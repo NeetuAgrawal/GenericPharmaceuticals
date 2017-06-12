@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -36,7 +38,7 @@ public class GenpharmaDAO {
         try{
         getConnection();
        Statement stmt= con.createStatement();
-      ResultSet rset= stmt.executeQuery("select id from voucher where shortName='"+vType+"'");
+      ResultSet rset= stmt.executeQuery("select voucher_id from voucher where codeName='"+vType+"'");
        if(rset.next()){
            id=rset.getInt(1);
        }
@@ -50,18 +52,20 @@ public class GenpharmaDAO {
         return id;
     }
     
-    public void saveEmpVoucher(String type,String date,float amount,String description,String billNo, String fileLoc){
+    public void saveEmpVoucher(int id,String type,String date,float amount,String description,String billNo, String fileLoc){
         
          try{
         getConnection();
         PreparedStatement stmt = con.prepareStatement("insert into user_voucher(user_id,voucher_id,status_id,creationTime,bill_date,amount,description,bill_no,imageURL) values(?,?,?,?,?,?,?,?,?)");
-       stmt.setInt(1,1);
+       stmt.setInt(1,id);
         stmt.setInt(2,getVoucherId(type));
-        stmt.setString(3,date);
-        stmt.setFloat(4, amount);
-        stmt.setString(5, description);
-        stmt.setString(6,billNo);
-        stmt.setString(7,fileLoc);
+        stmt.setInt(3,1);
+        stmt.setTimestamp(4, getCurrentTimestamp());
+        stmt.setString(5,date);
+        stmt.setFloat(6, amount);
+        stmt.setString(7, description);
+        stmt.setString(8,billNo);
+        stmt.setString(9,fileLoc);
         
         stmt.executeUpdate();
         
@@ -73,4 +77,13 @@ public class GenpharmaDAO {
         }
        
     }
+    
+    public Timestamp getCurrentTimestamp(){
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date now = calendar.getTime();
+        java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+        return currentTimestamp;
+    }
+    
+    
 }

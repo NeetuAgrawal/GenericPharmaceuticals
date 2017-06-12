@@ -4,7 +4,7 @@
     Author     : manish
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" session="false"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -41,7 +41,7 @@
                 <tr>
                     <td>Date</td>
                     <td>
-        <input type="date" name="date">
+                    <input type="date" name="date">
                     </td>
                 </tr>
                 

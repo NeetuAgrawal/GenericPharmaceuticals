@@ -4,7 +4,7 @@
     Author     : manish
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" session="false"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,6 +19,7 @@
                 <tr><td>Name </td><td>${requestScope.user.firstName}&nbsp;&nbsp;${requestScope.user.lastName}</td></tr>
                 <tr><td>EmailId</td><td>${requestScope.user.emailId}</td></tr>
                 <tr><td>Gender</td><td>${requestScope.user.gender}</td></tr>
+                <tr><td></td><td><a href="logout">LOGOUT</a></td></tr>
             </table>
         </div>
             <div>

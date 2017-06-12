@@ -7,6 +7,7 @@ package controllers;
  */
 
 import daos.GenpharmaDAO;
+import daos.UserDAO;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +16,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import models.User;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -60,7 +63,15 @@ private final String UPLOAD_DIRECTORY = "C:/uploads";
                         request.setAttribute("message", "File Uploaded Successfully!!!");
                     }
                    
-                saveInfo(data);
+                HttpSession session = request.getSession(false);
+                if(session!=null){
+                 User u = (User)session.getAttribute("user");
+                 UserDAO dao = new UserDAO();
+                 int id= dao.getUserId(u.getEmailId());
+                    System.out.println("USER'S ID IS *********** : "+ id);
+                 saveInfo(data,id);
+                }
+                
                 
             }
             catch(Exception e){
@@ -75,9 +86,11 @@ private final String UPLOAD_DIRECTORY = "C:/uploads";
   }
 
     
-    void saveInfo(String[] info){
+    void saveInfo(String[] info,int id){
+        
         GenpharmaDAO obj = new GenpharmaDAO();
-        obj.saveEmpVoucher(info[0],info[1],Float.parseFloat(info[2]),info[3],info[4],info[5]);
+        
+        obj.saveEmpVoucher(id,info[0],info[1],Float.parseFloat(info[2]),info[3],info[4],info[5]);
     }
     
     

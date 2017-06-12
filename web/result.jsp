@@ -1,7 +1,7 @@
 <%-- 
-    Document   : showAllVouchers
-    Created on : Jun 12, 2017, 10:48:00 AM
-    Author     : manish
+    Document   : result
+    Created on : 4 Jun, 2017, 1:15:27 PM
+    Author     : hp pc
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Show All Vouchers</title>
+        <title>JSP Page</title>
     </head>
     <body>
-        
+        <h1> ${message}</h1>
     </body>
 </html>
