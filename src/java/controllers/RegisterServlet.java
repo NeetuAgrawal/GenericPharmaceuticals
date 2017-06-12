@@ -51,8 +51,20 @@ public class RegisterServlet extends HttpServlet {
             boolean isAdded=userDao.addUser(u);
             if(isAdded){
                 System.out.println("New user has been added successfully...");
-                RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
+            
+                request.setAttribute("user",u);
+                if(role.equals("Employee")){
+                RequestDispatcher rd = request.getRequestDispatcher("empProfile.jsp");
                 rd.forward(request,response);
+                }else if(role.equals("Supervisor")){
+                RequestDispatcher rd = request.getRequestDispatcher("supervisorProfile.jsp");
+                rd.forward(request,response);
+                    }
+                else if(role.equals("FSO")){
+                RequestDispatcher rd = request.getRequestDispatcher("fsoProfile.jsp");
+                rd.forward(request,response);
+                    
+                }
             }
             else{
                 request.setAttribute("registerError","User Already Exist with this EmailId...");

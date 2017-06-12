@@ -27,7 +27,7 @@ public class UserDAO {
         try{
         boolean exist = doesUserExist(user.getEmailId());
         if(exist){
-            con.close();
+            
             return false;
         }
         else{
@@ -44,7 +44,7 @@ public class UserDAO {
                 pstmt.executeUpdate();
                 
                 pstmt.close();
-                con.close();
+                //con.close();
                 
                 return true;
                
@@ -105,5 +105,29 @@ public class UserDAO {
             System.out.println("Exception found in doesUserExist method() "+ex);
         }
         return null;
+    }
+    
+    public int getUserId(String emailId){
+        try{
+            if(con!=null){
+                Statement stmt = con.createStatement();
+                ResultSet rset= stmt.executeQuery("select user_id from user where email_id='"+emailId+"'");
+                if(rset.next()){
+                   int id= rset.getInt(1);
+                   rset.close();
+                   stmt.close();
+                   return id;
+                }
+                else{
+                    rset.close();
+                    stmt.close();
+                    return 0;
+                }
+            }
+        }
+        catch(Exception ex){
+            System.out.println("Exception occur while getting User Id "+ex);
+        }
+        return 0;
     }
 }

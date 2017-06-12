@@ -40,10 +40,23 @@ public class LoginServlet extends HttpServlet {
                 System.out.println("No User exist with this mail id or password ");
                 response.sendRedirect("./index.jsp");
             }
-            else{
+            else {
                 request.setAttribute("user",u);
-                RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
+                if(role.equals("Employee")){
+                RequestDispatcher rd = request.getRequestDispatcher("empProfile.jsp");
                 rd.forward(request,response);
+                }
+                else if(role.equals("Supervisor")){
+                    RequestDispatcher rd = request.getRequestDispatcher("supervisorProfile.jsp");
+                rd.forward(request,response);
+                }
+                else if(role.equals("FSO")){
+                    RequestDispatcher rd = request.getRequestDispatcher("fsoProfile.jsp");
+                rd.forward(request,response);
+                }
+                else{
+                    System.out.println("There is something problem in login...");
+                }
             }
             
         }
